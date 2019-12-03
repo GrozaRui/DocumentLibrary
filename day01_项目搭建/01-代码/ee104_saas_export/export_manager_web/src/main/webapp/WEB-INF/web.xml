@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         version="2.5">
+
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>classpath*:spring/applicationContext-*.xml</param-value>
+  </context-param>
+  <!--加载子工程的配置-->
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  
+  <!--前端控制器-->
+  <servlet>
+    <servlet-name>DispatcherServlet</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>classpath*:spring/spring-mvc.xml</param-value>
+    </init-param>
+    <!--启动加载 1 2 3 4 5 6  不加 以后启动程序 要加载的东西 太多 启动变慢-->
+    <!--<load-on-startup>2</load-on-startup>-->
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DispatcherServlet</servlet-name>
+    <!--
+      *.do  对于静态资源不拦截 只拦截 .do 结尾的资源
+      /   如果访问静态资源  /会拦截  css img script 访问不了 配置静态资源放行
+    -->
+    <url-pattern>*.do</url-pattern>
+  </servlet-mapping>
+  <!--乱码处理器-->
+  <filter>
+    <filter-name>CharacterEncodingFilter</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <!--设置编码-->
+    <init-param>
+    <param-name>encoding</param-name>
+    <param-value>utf-8</param-value>
+  </init-param>
+    <!--设置强制编码 底层默认true -->
+    <init-param>
+      <param-name>forceEncoding</param-name>
+      <param-value>true</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>CharacterEncodingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+
+</web-app>
